@@ -24,3 +24,6 @@ logp = np.array(logp)
 score = logp[:-1] - logp[1:]
 
 ```
+
+## Demo from paper 
+Checkout (hmm_example.ipynb) to reproduce the demo from Figure 1 and Figure 3 from the paper.
