@@ -25,5 +25,96 @@ score = logp[:-1] - logp[1:]
 
 ```
 
-## Demo from paper 
-Checkout (hmm_example.ipynb) to reproduce the demo from Figure 1 and Figure 3 from the paper.
+## Demo from paper (Figure 1 & 3)
+```python
+from hmmlearn import hmm
+import numpy as np
+import matplotlib.pyplot as plt
+from pprint import pprint
+plt.rcParams['text.usetex'] = False
+
+state_dict = {
+    '0' : np.array([0,1]),
+    '1' : np.array([1,0]),
+    'a' : np.array([1,1])}
+
+def plot_seq_online(seq, draw_dot_at = False):
+    x = []
+    for i in range(len(seq)):
+        x.append(state_dict[seq[i]])
+    x = np.stack(x)
+    model = hmm.GaussianHMM(n_components=2, covariance_type="diag")
+    model.fit(x[:-1,:]) # excluding last element from seq
+    score = []
+    for i in range(1,x.shape[0]+1):
+        score.append(model.score(x[:i]))
+    score = np.array(score)
+    print(len(seq), len(score))
+    s = score[1:] - score[:-1]
+    s = np.insert(s,0, s.max())
+    plt.plot(np.array(range(len(s)))+1, -s)
+    if draw_dot_at:
+        plt.plot(len(s),-s[-1],'ro')
+    plt.xlabel('Event number', fontsize=16)
+    # plt.ylabel('Score $s$', fontsize=16) # ($-\log P(o_{i}|o_{1}\dots o_{i-1}$)
+    plt.yticks(fontsize = 16)
+    plt.xticks(fontsize = 16)
+
+def plot_seq_offline(seq, draw_dot_at = False):
+    x = []
+    for i in range(len(seq)):
+        x.append(state_dict[seq[i]])
+    x = np.stack(x)
+    model = hmm.GaussianHMM(n_components=2, covariance_type="diag")
+    model.fit(x[:,:]) # excluding last element from seq
+    score = []
+    for i in range(1,x.shape[0]+1):
+        score.append(model.score(x[:i]))
+    score = np.array(score)
+    print(len(seq), len(score))
+    s = score[1:] - score[:-1]
+    s = np.insert(s,0, s.max())
+    plt.plot(np.array(range(len(s)))+1, -s)
+    if draw_dot_at:
+        plt.plot(len(s),-s[-1],'ro')
+    plt.xlabel('Event number', fontsize=16)
+    # plt.ylabel('Score $s$', fontsize=16) # ($-\log P(o_{i}|o_{1}\dots o_{i-1}$)
+    plt.yticks(fontsize = 16)
+    plt.xticks(fontsize = 16)
+# Figure 1
+plt.figure(figsize=(16, 4), dpi=300)  # Increased DPI for higher resolution in print
+seq = ['0','1','0','1','0','1','0','1']
+plt.subplot(131)
+plot_seq_offline(seq,True)
+plt.title('No anomaly', fontsize = 16)
+
+seq = ['0','1','0','1','0','1','0','0']
+plt.subplot(132)
+plot_seq_offline(seq,True)
+plt.title('Last event has unusual position',  fontsize = 16)
+
+seq = ['0','1','0','1','0','1','0','a']
+plt.subplot(133)
+plot_seq_offline(seq,True)
+plt.title('Anomalous event',  fontsize = 16)
+plt.savefig('Figure_1.pdf', format='pdf', bbox_inches='tight')
+
+# Figure 3
+plt.figure(figsize=(16, 4), dpi=300)  # Increased DPI for higher resolution in print
+seq = ['0','1','0','1','0','1','0','1']
+plt.subplot(131)
+plot_seq_online(seq,True)
+plt.title('No anomaly',  fontsize = 16)
+
+seq = ['0','1','0','1','0','1','0','0']
+plt.subplot(132)
+plot_seq_online(seq,True)
+plt.title('Last event has unusual position',  fontsize = 16)
+
+seq = ['0','1','0','1','0','1','0','a']
+plt.subplot(133)
+plot_seq_online(seq,True)
+plt.title('Anomalous event',  fontsize = 16)
+plt.savefig('Figure_3.pdf', format='pdf', bbox_inches='tight')
+
+```
