@@ -8,7 +8,7 @@ This article introduces a method to detect anomalies in the log data generated b
 pip intall hmmlearn==0.2.7 numpy
 ```
 
-## Example
+## A minial example
 ```python
 from hmmlearn import hmm
 import numpy as np
