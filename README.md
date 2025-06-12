@@ -4,18 +4,18 @@
 
 ### Description
 
-This repository contains the code for the paper "Unsupervised Log Anomaly Detection with Few Unique Tokens." [cite_start]The project introduces a novel unsupervised method for detecting anomalies in log data, specifically tailored for the control system logs from the European XFEL (EuXFEL) accelerator. 
+This repository contains the code for the paper "Unsupervised Log Anomaly Detection with Few Unique Tokens."  The project introduces a novel unsupervised method for detecting anomalies in log data, specifically tailored for the control system logs from the European XFEL (EuXFEL) accelerator. 
 
-[cite_start]Effective anomaly detection is crucial for providing operators with a clear understanding of each node's availability, status, and potential problems, thereby ensuring smooth accelerator operation.  [cite_start]Traditional machine learning approaches often fail in this environment due to the sequential nature of the logs and the lack of a rich, node-specific text corpus.  [cite_start]Our approach addresses these challenges by using Word2Vec embeddings to represent log entries and a Hidden Markov Model (HMM) to learn the typical sequential patterns for each node.  [cite_start]Anomalies are then identified by scoring how well a new log entry fits into the learned sequence. 
+ Effective anomaly detection is crucial for providing operators with a clear understanding of each node's availability, status, and potential problems, thereby ensuring smooth accelerator operation.   Traditional machine learning approaches often fail in this environment due to the sequential nature of the logs and the lack of a rich, node-specific text corpus.   Our approach addresses these challenges by using Word2Vec embeddings to represent log entries and a Hidden Markov Model (HMM) to learn the typical sequential patterns for each node.   Anomalies are then identified by scoring how well a new log entry fits into the learned sequence. 
 
 ### Methodology
 
-[cite_start]The anomaly detection process consists of four main stages as described in the manuscript:
+ The anomaly detection process consists of four main stages as described in the manuscript:
 
-1.  **Log Pre-processing and Tokenization**: Raw log entries are cleaned and standardized. [cite_start]This involves removing special characters, masking server/device names, abstracting numerical values, converting to lowercase, and removing common stopwords. 
-2.  **Log Entry Embedding with Word2Vec**: Each pre-processed log entry is converted into a dense numerical vector using the Word2Vec (CBOW) model. [cite_start]An entire log entry is represented by the mean of the vectors of its constituent tokens. 
-3.  **Sequential Pattern Learning via HMM**: An HMM is trained on sequences of the log entry vectors from historical data. [cite_start]The HMM learns the probability distribution over typical sequences, effectively modeling the normal temporal behavior of a given log source. 
-4.  **Anomaly Scoring**: A new log entry is scored based on a probability ratio that compares the likelihood of the log sequence with and without the new entry. [cite_start]A high score indicates that the new entry disrupts the learned pattern and is therefore a potential anomaly.  The anomaly score *s* for a new entry *o<sub>i</sub>* is calculated as:
+1.  **Log Pre-processing and Tokenization**: Raw log entries are cleaned and standardized.  This involves removing special characters, masking server/device names, abstracting numerical values, converting to lowercase, and removing common stopwords. 
+2.  **Log Entry Embedding with Word2Vec**: Each pre-processed log entry is converted into a dense numerical vector using the Word2Vec (CBOW) model.  An entire log entry is represented by the mean of the vectors of its constituent tokens. 
+3.  **Sequential Pattern Learning via HMM**: An HMM is trained on sequences of the log entry vectors from historical data.  The HMM learns the probability distribution over typical sequences, effectively modeling the normal temporal behavior of a given log source. 
+4.  **Anomaly Scoring**: A new log entry is scored based on a probability ratio that compares the likelihood of the log sequence with and without the new entry.  A high score indicates that the new entry disrupts the learned pattern and is therefore a potential anomaly.  The anomaly score *s* for a new entry *o<sub>i</sub>* is calculated as:
     `s = log P(o1,...,oi-1) - log P(o1,...,oi)` 
 
 ### Dataset Information
