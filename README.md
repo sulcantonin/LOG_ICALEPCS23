@@ -20,11 +20,11 @@ This repository contains the code for the paper "Unsupervised Log Anomaly Detect
 
 ### Dataset Information
 
-[cite_start]The data used for this study consists of internal operational logs from the control system at the **European XFEL (EuXFEL) facility**.  Due to operational sensitivity, this dataset is not publicly available.
+The data used for this study consists of internal operational logs from the control system at the **European XFEL (EuXFEL) facility**.  Due to operational sensitivity, this dataset is not publicly available.
 
 The key characteristics of the dataset are:
-* [cite_start]**Sparse and Non-Verbose**: Log entries are diverse but not rich in text. 
-* [cite_start]**Limited Vocabulary**: After pre-processing, the corpus contains only 475 unique tokens, resulting in fewer than 1,000 unique log messages. 
+* **Sparse and Non-Verbose**: Log entries are diverse but not rich in text. 
+* **Limited Vocabulary**: After pre-processing, the corpus contains only 475 unique tokens, resulting in fewer than 1,000 unique log messages. 
 
 No external or third-party datasets were used in this work.
 
@@ -33,8 +33,8 @@ No external or third-party datasets were used in this work.
 The code was developed in Python 3.9 and relies on the following libraries:
 
 * `numpy`
-* [cite_start]`gensim` 
-* [cite_start]`hmmlearn==0.3.3` 
+* `gensim` 
+* `hmmlearn==0.3.3` 
 * `matplotlib`
 * `scikit-learn` (dependency of hmmlearn)
 * `scipy` (dependency of hmmlearn)
